@@ -1,0 +1,4 @@
+conan
+jupyter
+beautifulsoup4
+selenium
