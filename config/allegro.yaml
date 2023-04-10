@@ -1,0 +1,8 @@
+#this file contains input parameters for allegro vendor
+
+---
+vendor: 'https://allegro.pl/'
+searchPrompt: 'listing?string='
+option.buyNow: 'offerTypeBuyNow=1'
+operator.and: '&'
+searchName: 'Final Fantasy'

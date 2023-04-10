@@ -1,5 +1,5 @@
 conan
-jupyter
 selenium
 webdriver-manager
 pandas
+pyyaml

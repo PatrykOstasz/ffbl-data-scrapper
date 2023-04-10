@@ -1,0 +1,17 @@
+#this file contains configuration parameters for EdgeWebServer
+
+---
+useChromium: True
+
+# Adding argument to disable the AutomationControlled flag 
+disable.AutomationControlledFlag: "disable-blink-features=AutomationControlled"
+
+# Exclude the collection of enable-automation switches
+switches:
+  excludeSwitches: 'excludeSwitches'
+  value:
+  - 'enable-automation'
+
+# Turn-off userAutomationExtension 
+turnOffUserAutomationExtension: 'useAutomationExtension'
+value: False
