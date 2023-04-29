@@ -1,10 +1,6 @@
-import pandas as pd
+from administration.Controller import Controller
 
-from edgedriver import EdgeDriver
-
-def __main__():
-    ed = EdgeDriver()
-    ed.startScrapping()
-    ed.getScrappedData()
-
-    print(ed._scrappedData)
+controller = Controller()
+controller.startScraping()
+controller.print()
+controller.saveToFile()

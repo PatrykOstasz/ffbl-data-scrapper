@@ -1,5 +1,0 @@
-headlessMode = '--headless'
-disable.gpu = '--disableGpu'
-experimental.disable.AutomationControlledFlag = disable-blink-features=AutomationControlled
-experimental.excludeSwitches.enableAutomation = "excludeSwitches", ["enable-automation"]"
-experimental.turnOffUserAutomationExtension = "useAutomationExtension", False"
