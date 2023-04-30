@@ -1,26 +1,24 @@
 import random
-import re
 import time
 
 from selenium.webdriver.common.by import By
 
-from selenium.webdriver.common.action_chains import ActionChains
 
-class AllegroLVendor:
+class OlxScrapper:
     def __init__(self) -> None:       
         self._data = []
-        self._fullUrl = "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
-    
+        self._fullUrl = "https://www.olx.pl/oferty/q-final-fantasy/"
+
 
     def startScrapingData(self, driver):
-        time.sleep(random.randint(2, 6))
         self._acceptCookies(driver)
-        
+        time.sleep(random.randint(2, 6))
+
         _pageCount = self._findPageCount(driver)
 
         _productNames = self._findProductNames(driver)
         _productPrices = self._findProductPrices(driver)
-
+        
         for page in range(1, _pageCount):
             self._turnPage(driver)
             _productNames.extend(self._findProductNames(driver))
@@ -31,53 +29,60 @@ class AllegroLVendor:
     
     def processScrappedData(self, products):
         names, prices = products
-        
-        #creating whole prices with nominal
         processedPrices = []
-        for elem in prices:
-            tempPrice = elem + ",00zł"
-            processedPrices.append(tempPrice)
+        for item in prices:
+            if 'do negocjacji' in item:
+                processedPrices.append(item.replace('\ndo negocjacji', ''))
+            else:
+                processedPrices.append(item)
         
         self._data = [list(elem) for elem in zip(names, processedPrices)]
-    
+
+
     @staticmethod
     def _acceptCookies(driver):
-        driver.find_element(By.XPATH, "//button[@id='cookies_confirm']").click()
+        driver.find_element(By.XPATH, "//button[@id='onetrust-accept-btn-handler']").click()
+
 
     @staticmethod
     def _findPageCount(driver):
-        _paginationItem = []
-        for elem in driver.find_elements(By.XPATH, "//span[@class='ml-text-medium ml-text-color-secondary ml-pagination__count']"):
-                _paginationItem.append(str(elem.text))
-        return int(_paginationItem[-1].split()[-1])
+        _pageList = driver.find_elements(By.XPATH, "//li[@data-testid='pagination-list-item']")
+        _pageCountL = []
+        for page in _pageList:
+            _pageCountL.append(page.get_attribute('aria-label'))
+        print(_pageCountL)
+        _pageCount =_pageCountL[-1].split()
+        print(_pageCount[1])
+        return int(_pageCount[1])
 
 
     @staticmethod
     def _findProductNames(driver):
         _productNames = []
-        for element in driver.find_elements(By.XPATH, "//h3[@class='mlc-itembox__title']"):
+        for element in driver.find_elements(By.TAG_NAME, 'h6'):
             _productNames.append(str(element.text))
         return _productNames
+
 
     @staticmethod
     def _findProductPrices(driver):
         _productPrices = []
-        for element in driver.find_elements(By.XPATH, "//span[@class='ml-offer-price__dollars']"):
+        for element in driver.find_elements(By.XPATH, "//p[@data-testid='ad-price']"):
             _productPrices.append(element.text)
         return _productPrices
 
+
     @staticmethod
     def _turnPage(driver):
-        element = driver.find_element(By.XPATH, "//a[@class='ml-pagination__link']")
-        driver.execute_script("arguments[0].scrollIntoView();", element)
-        driver.execute_script("arguments[0].click();", element)
+        driver.find_element(By.XPATH, "//a[@data-testid='pagination-forward']").click()
         time.sleep(random.randint(2, 6))  
 
 
     @property
     def fullUrl(self):
         return self._fullUrl
-    
+
+
     @property
     def processedData(self):
         return self._data

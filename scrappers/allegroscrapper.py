@@ -1,14 +1,15 @@
 import random
-import re
 import time
 
 from selenium.webdriver.common.by import By
 
-class AllegroVendor:
+
+class AllegroScrapper:
     def __init__(self) -> None:
         self._data = []
         self._fullUrl = 'https://allegro.pl/listing?string=final%20fantasy&offerTypeBuyNow=1'
-        
+
+
     def startScrapingData(self, driver):
         time.sleep(random.randint(2, 6))
 
@@ -25,9 +26,11 @@ class AllegroVendor:
             if processedItem != ['None'] and len(processedItem) == 2:
                 self._data.append(processedItem)
     
+
     @property
     def fullUrl(self):
         return self._fullUrl
+    
     
     @property
     def processedData(self):

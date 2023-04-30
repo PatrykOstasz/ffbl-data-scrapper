@@ -1,73 +1,86 @@
 import random
-import re
 import time
 
 from selenium.webdriver.common.by import By
 
-class AmazonVendor:
-    def __init__(self) -> None:    
+
+class AllegroLocalScrapper:
+    def __init__(self) -> None:       
         self._data = []
-        self._fullUrl = "https://www.amazon.pl/s?k=final+fantasy&crid=2PXQDRZOTKAN6&sprefix=%2Caps%2C118&ref=nb_sb_ss_recent_1_0_recent"
+        self._fullUrl = "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
+    
 
     def startScrapingData(self, driver):
-        #cookies form will start each time on a 'clean' browser
-        self._acceptCookies(driver)
         time.sleep(random.randint(2, 6))
-
+        self._acceptCookies(driver)
+        
         _pageCount = self._findPageCount(driver)
 
         _productNames = self._findProductNames(driver)
         _productPrices = self._findProductPrices(driver)
-        
+
         for page in range(1, _pageCount):
             self._turnPage(driver)
             _productNames.extend(self._findProductNames(driver))
             _productPrices.extend(self._findProductPrices(driver))
-
+        
         return _productNames, _productPrices
 
+    
     def processScrappedData(self, products):
         names, prices = products
+        
+        #creating whole prices with nominal
         processedPrices = []
-        for price in prices:
-            if '\n' in price:
-                processedPrices.append(price.replace('\n', ','))
-            else:
-                processedPrices.append(price)
+        for elem in prices:
+            tempPrice = elem + ",00zł"
+            processedPrices.append(tempPrice)
+        
         self._data = [list(elem) for elem in zip(names, processedPrices)]
+    
 
     @staticmethod
     def _acceptCookies(driver):
-        driver.find_element(By.XPATH, "//input[@id='sp-cc-accept']").click()
+        driver.find_element(By.XPATH, "//button[@id='cookies_confirm']").click()
+
 
     @staticmethod
     def _findPageCount(driver):
-        return int(driver.find_element(By.XPATH, "//span[@class='s-pagination-item s-pagination-disabled']").text)
+        _paginationItem = []
+        for elem in driver.find_elements(By.XPATH, "//span[@class='ml-text-medium ml-text-color-secondary ml-pagination__count']"):
+                _paginationItem.append(str(elem.text))
+        return int(_paginationItem[-1].split()[-1])
+
 
     @staticmethod
     def _findProductNames(driver):
         _productNames = []
-        for element in driver.find_elements(By.XPATH, "//span[@class='a-size-base-plus a-color-base a-text-normal']"):
+        for element in driver.find_elements(By.XPATH, "//h3[@class='mlc-itembox__title']"):
             _productNames.append(str(element.text))
         return _productNames
+
 
     @staticmethod
     def _findProductPrices(driver):
         _productPrices = []
-        for element in driver.find_elements(By.XPATH, "//span[@class='a-price']"):
+        for element in driver.find_elements(By.XPATH, "//span[@class='ml-offer-price__dollars']"):
             _productPrices.append(element.text)
         return _productPrices
 
 
     @staticmethod
     def _turnPage(driver):
-        driver.find_element(By.XPATH, "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']").click()
-        time.sleep(random.randint(2, 6))
+        element = driver.find_element(By.XPATH, "//a[@class='ml-pagination__link']")
+        driver.execute_script("arguments[0].scrollIntoView();", element)
+        driver.execute_script("arguments[0].click();", element)
+        time.sleep(random.randint(2, 6))  
+
 
     @property
     def fullUrl(self):
         return self._fullUrl
     
+
     @property
     def processedData(self):
         return self._data

@@ -15,10 +15,12 @@ class ChromeDriverOptions:
         self._options.add_experimental_option(parameters['switches']["excludeSwitches"], parameters['switches']['value'])
         self._options.add_experimental_option(parameters["turnOffUserAutomationExtension"], parameters['value'])
 
+
     def _readParameters(self):
         with open('config/ChromeParameters.yaml', 'r') as file:
             parameters = yaml.load(file, Loader=BaseLoader)
         return parameters
+
 
     @property
     def options(self):
