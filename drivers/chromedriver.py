@@ -26,7 +26,7 @@ class ChromeDriver:
 
     def execute(self):
         self._driver.get(self._vendorFullUrl)
-        _wait = WebDriverWait(self._driver, random.randint(3, 7))
+        _wait = WebDriverWait(self._driver, random.randint(1, 5))
 
 
     @property

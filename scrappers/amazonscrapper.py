@@ -14,7 +14,7 @@ class AmazonScrapper:
     def startScrapingData(self, driver):
         #cookies form will start each time on a 'clean' browser
         self._acceptCookies(driver)
-        time.sleep(random.randint(2, 6))
+        time.sleep(random.randint(1, 5))
 
         _pageCount = self._findPageCount(driver)
 
@@ -69,7 +69,7 @@ class AmazonScrapper:
     @staticmethod
     def _turnPage(driver):
         driver.find_element(By.XPATH, "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']").click()
-        time.sleep(random.randint(2, 6))
+        time.sleep(random.randint(1, 5))
 
 
     @property

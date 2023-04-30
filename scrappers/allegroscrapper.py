@@ -11,7 +11,7 @@ class AllegroScrapper:
 
 
     def startScrapingData(self, driver):
-        time.sleep(random.randint(2, 6))
+        time.sleep(random.randint(1, 5))
 
         products = []
         for element in driver.find_elements(By.TAG_NAME, 'article'):
@@ -31,7 +31,7 @@ class AllegroScrapper:
     def fullUrl(self):
         return self._fullUrl
     
-    
+
     @property
     def processedData(self):
         return self._data

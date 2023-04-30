@@ -12,7 +12,7 @@ class OlxScrapper:
 
     def startScrapingData(self, driver):
         self._acceptCookies(driver)
-        time.sleep(random.randint(2, 6))
+        time.sleep(random.randint(1, 5))
 
         _pageCount = self._findPageCount(driver)
 
@@ -75,7 +75,7 @@ class OlxScrapper:
     @staticmethod
     def _turnPage(driver):
         driver.find_element(By.XPATH, "//a[@data-testid='pagination-forward']").click()
-        time.sleep(random.randint(2, 6))  
+        time.sleep(random.randint(1, 5))  
 
 
     @property

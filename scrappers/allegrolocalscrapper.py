@@ -11,8 +11,8 @@ class AllegroLocalScrapper:
     
 
     def startScrapingData(self, driver):
-        time.sleep(random.randint(2, 6))
         self._acceptCookies(driver)
+        time.sleep(random.randint(1, 5))
         
         _pageCount = self._findPageCount(driver)
 
@@ -73,7 +73,7 @@ class AllegroLocalScrapper:
         element = driver.find_element(By.XPATH, "//a[@class='ml-pagination__link']")
         driver.execute_script("arguments[0].scrollIntoView();", element)
         driver.execute_script("arguments[0].click();", element)
-        time.sleep(random.randint(2, 6))  
+        time.sleep(random.randint(1, 5))  
 
 
     @property
