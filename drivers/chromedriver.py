@@ -11,6 +11,7 @@ class ChromeDriver:
     def __init__(self, vendorFullUrl) -> None:
         self._vendorFullUrl = vendorFullUrl
 
+        
         self._chromeDriverOptions = ChromeDriverOptions()
         self._automaticService = Service(ChromeDriverManager().install())
         self._driver = None

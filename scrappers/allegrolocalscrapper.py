@@ -3,13 +3,11 @@ import time
 
 from selenium.webdriver.common.by import By
 
-
 class AllegroLocalScrapper:
-    def __init__(self) -> None:       
+    def __init__(self) -> None:     
         self._data = []
         self._fullUrl = "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
     
-
     def startScrapingData(self, driver):
         self._acceptCookies(driver)
         time.sleep(random.randint(1, 5))

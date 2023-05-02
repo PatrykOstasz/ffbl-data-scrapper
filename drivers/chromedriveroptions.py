@@ -2,25 +2,21 @@ import yaml
 
 from selenium.webdriver import ChromeOptions
 from yaml.loader import BaseLoader
-
+from admin.webdriverparameters import WebDriverParameters
 
 class ChromeDriverOptions:
     def __init__(self) -> None:
         self._options = ChromeOptions()
-        parameters = self._readParameters()
+        p = WebDriverParameters()
 
-        self._options.add_argument(parameters['headlessMode'])
-        self._options.add_argument(parameters['disable.Gpu'])
-        self._options.add_argument(parameters['disable.AutomationControlledFlag'])
-        self._options.add_experimental_option(parameters['switches']["excludeSwitches"], parameters['switches']['value'])
-        self._options.add_experimental_option(parameters["turnOffUserAutomationExtension"], parameters['value'])
+        self._options.add_argument(p.headlessMode)
+        self._options.add_argument(p.disableGpu)
+        self._options.add_argument(p.disableAutomationControlledFlag)
 
-
-    def _readParameters(self):
-        with open('config/ChromeParameters.yaml', 'r') as file:
-            parameters = yaml.load(file, Loader=BaseLoader)
-        return parameters
-
+        (exSwitchesKey, exSwitchesValues), = p.expSwitches.items()
+        (exAutoExtensionKey, exAutoExtensionValue), = p.expAutomationExtension.items()
+        self._options.add_experimental_option(exSwitchesKey, exSwitchesValues)
+        self._options.add_experimental_option(exAutoExtensionKey, exAutoExtensionValue)
 
     @property
     def options(self):

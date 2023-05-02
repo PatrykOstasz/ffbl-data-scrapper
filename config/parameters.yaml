@@ -1,0 +1,64 @@
+# This file contains all of parameters, literals and configurable part of ffbl-data-scrapper
+# all parameters are divided into sections represented by different yaml documents
+
+
+---
+section: webdriver
+
+headlessMode: '--headless'
+disable.Gpu: '--disableGpu'
+disable.AutomationControlledFlag: "disable-blink-features=AutomationControlled"
+script.navigator: "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+
+# Exclude the collection of enable-automation switches
+experimental.switches: {'excludeSwitches': ['enable-automation', 'enable-logging']}
+
+# Turn-off userAutomationExtension
+experimental.automaExtension: {'useAutomationExtension': False}
+...
+
+---
+section: scrapper.allegrolocal
+
+# !all those parameters should not be commented out!
+
+fullUrl: "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
+xpath.cookies: "//button[@id='cookies_confirm']"
+xpath.pageCount: "//span[@class='ml-text-medium ml-text-color-secondary ml-pagination__count']"
+xpath.productNames: "//h3[@class='mlc-itembox__title']"
+xpath.productPrices: "//span[@class='ml-offer-price__dollars']"
+xpath.pagination: "//a[@class='ml-pagination__link']"
+...
+
+---
+section: scrapper.amazon
+
+# !all those parameters should not be commented out!
+
+fullUrl: "https://www.amazon.pl/s?k=final+fantasy&crid=2PXQDRZOTKAN6&sprefix=%2Caps%2C118&ref=nb_sb_ss_recent_1_0_recent"
+xpath.cookies: "//input[@id='sp-cc-accept']"
+xpath.pageCount: "//span[@class='s-pagination-item s-pagination-disabled']"
+xpath.productNames: "//span[@class='a-size-base-plus a-color-base a-text-normal']"
+xpath.productPrices: "//span[@class='a-price']"
+xpath.pagination: "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']"
+...
+
+---
+section: scrapper.olx
+
+# !all those parameters should not be commented out!
+
+fullUrl: "https://www.olx.pl/oferty/q-final-fantasy/"
+xpath.cookies: "//button[@id='onetrust-accept-btn-handler']"
+xpath.pageCount: "//li[@data-testid='pagination-list-item']"
+xpath.productNames: 'h6'
+xpath.productPrices: "//p[@data-testid='ad-price']"
+xpath.pagination: "//a[@data-testid='pagination-forward']"
+...
+
+---
+section: misc
+
+driver.waittime.min: 1
+driver.waittime.max: 5
+...

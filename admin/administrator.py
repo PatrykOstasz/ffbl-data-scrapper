@@ -6,6 +6,7 @@ from scrappers.amazonscrapper import AmazonScrapper
 from scrappers.olxscrapper import OlxScrapper
 
 
+
 class Administrator:
     def __init__(self) -> None:
         olx = OlxScrapper()
@@ -42,4 +43,3 @@ class Administrator:
             print(data)
         else:
            print('ERROR: Data cannot be printed when empty') 
-
