@@ -5,15 +5,17 @@ from selenium.webdriver.common.by import By
 
 
 class OlxScrapper:
-    def __init__(self, olxParams, miscParams) -> None:       
+    def __init__(self, olxParams, miscParams) -> None:
+        self._olxParams = olxParams
+        self._miscParams = miscParams     
         self._data = []
-        self._fullUrl = "https://www.olx.pl/oferty/q-final-fantasy/"
+        self._fullUrl = self._olxParams.fullUrl
         self._driver = None
 
 
     def startScrapingData(self):
         self._acceptCookies()
-        time.sleep(random.randint(1, 5))
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
 
         _pageCount = self._findPageCount()
 
@@ -45,11 +47,11 @@ class OlxScrapper:
 
 
     def _acceptCookies(self):
-        self._driver.find_element(By.XPATH, "//button[@id='onetrust-accept-btn-handler']").click()
+        self._driver.find_element(By.XPATH, self._olxParams.cookies).click()
 
 
     def _findPageCount(self):
-        _pageList = self._driver.find_elements(By.XPATH, "//li[@data-testid='pagination-list-item']")
+        _pageList = self._driver.find_elements(By.XPATH, self._olxParams.pageCount)
         _pageCountL = []
         for page in _pageList:
             _pageCountL.append(page.get_attribute('aria-label'))
@@ -61,21 +63,21 @@ class OlxScrapper:
 
     def _findProductNames(self):
         _productNames = []
-        for element in self._driver.find_elements(By.TAG_NAME, 'h6'):
+        for element in self._driver.find_elements(By.TAG_NAME, self._olxParams.productNames):
             _productNames.append(str(element.text))
         return _productNames
 
 
     def _findProductPrices(self):
         _productPrices = []
-        for element in self._driver.find_elements(By.XPATH, "//p[@data-testid='ad-price']"):
+        for element in self._driver.find_elements(By.XPATH, self._olxParams.productPrices):
             _productPrices.append(element.text)
         return _productPrices
 
 
     def _turnPage(self):
-        self._driver.find_element(By.XPATH, "//a[@data-testid='pagination-forward']").click()
-        time.sleep(random.randint(1, 5))  
+        self._driver.find_element(By.XPATH, self._olxParams.pagination).click()
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))  
 
 
     @property

@@ -4,9 +4,11 @@ import time
 from selenium.webdriver.common.by import By
 
 class AllegroLocalScrapper:
-    def __init__(self, allegroParams, miscParams) -> None:     
+    def __init__(self, allegroParams, miscParams) -> None:   
+        self._allegroParams = allegroParams
+        self._miscParams = miscParams
         self._data = []
-        self._fullUrl = "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
+        self._fullUrl = self._allegroParams.fullUrl
         self._driver = None
     
     def setWebDriver(self, driver):
@@ -14,7 +16,7 @@ class AllegroLocalScrapper:
 
     def startScrapingData(self):
         self._acceptCookies()
-        time.sleep(random.randint(1, 5))
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
         
         _pageCount = self._findPageCount()
 
@@ -32,7 +34,6 @@ class AllegroLocalScrapper:
     def processScrappedData(self, products):
         names, prices = products
         
-        #creating whole prices with nominal
         processedPrices = []
         for elem in prices:
             tempPrice = elem + ",00zł"
@@ -42,35 +43,35 @@ class AllegroLocalScrapper:
     
 
     def _acceptCookies(self):
-        self._driver.find_element(By.XPATH, "//button[@id='cookies_confirm']").click()
+        self._driver.find_element(By.XPATH, self._allegroParams.cookies).click()
 
 
     def _findPageCount(self):
         _paginationItem = []
-        for elem in self._driver.find_elements(By.XPATH, "//span[@class='ml-text-medium ml-text-color-secondary ml-pagination__count']"):
+        for elem in self._driver.find_elements(By.XPATH, self._allegroParams.pageCount):
                 _paginationItem.append(str(elem.text))
         return int(_paginationItem[-1].split()[-1])
 
 
     def _findProductNames(self):
         _productNames = []
-        for element in self._driver.find_elements(By.XPATH, "//h3[@class='mlc-itembox__title']"):
+        for element in self._driver.find_elements(By.XPATH, self._allegroParams.productNames):
             _productNames.append(str(element.text))
         return _productNames
 
 
     def _findProductPrices(self):
         _productPrices = []
-        for element in self._driver.find_elements(By.XPATH, "//span[@class='ml-offer-price__dollars']"):
+        for element in self._driver.find_elements(By.XPATH, self._allegroParams.productPrices):
             _productPrices.append(element.text)
         return _productPrices
 
 
     def _turnPage(self):
-        element = self._driver.find_element(By.XPATH, "//a[@class='ml-pagination__link']")
+        element = self._driver.find_element(By.XPATH, self._allegroParams.pagination)
         self._driver.execute_script("arguments[0].scrollIntoView();", element)
         self._driver.execute_script("arguments[0].click();", element)
-        time.sleep(random.randint(1, 5))  
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))  
 
 
     @property

@@ -6,16 +6,18 @@ from selenium.webdriver.common.by import By
 
 
 class AmazonScrapper:
-    def __init__(self, amazonParams, miscParams) -> None:    
+    def __init__(self, amazonParams, miscParams) -> None:
+        self._amazonParams = amazonParams
+        self._miscParams = miscParams
         self._data = []
-        self._fullUrl = "https://www.amazon.pl/s?k=final+fantasy&crid=2PXQDRZOTKAN6&sprefix=%2Caps%2C118&ref=nb_sb_ss_recent_1_0_recent"
+        self._fullUrl = self._amazonParams.fullUrl
         self._driver = None
 
 
     def startScrapingData(self):
         #cookies form will start each time on a 'clean' browser
         self._acceptCookies()
-        time.sleep(random.randint(1, 5))
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
 
         _pageCount = self._findPageCount()
 
@@ -46,30 +48,30 @@ class AmazonScrapper:
 
 
     def _acceptCookies(self):
-        self._driver.find_element(By.XPATH, "//input[@id='sp-cc-accept']").click()
+        self._driver.find_element(By.XPATH, self._amazonParams.cookies).click()
 
 
     def _findPageCount(self):
-        return int(self._driver.find_element(By.XPATH, "//span[@class='s-pagination-item s-pagination-disabled']").text)
+        return int(self._driver.find_element(By.XPATH, self._amazonParams.pageCount).text)
 
 
     def _findProductNames(self):
         _productNames = []
-        for element in self._driver.find_elements(By.XPATH, "//span[@class='a-size-base-plus a-color-base a-text-normal']"):
+        for element in self._driver.find_elements(By.XPATH, self._amazonParams.productNames):
             _productNames.append(str(element.text))
         return _productNames
 
 
     def _findProductPrices(self):
         _productPrices = []
-        for element in self._driver.find_elements(By.XPATH, "//span[@class='a-price']"):
+        for element in self._driver.find_elements(By.XPATH, self._amazonParams.productPrices):
             _productPrices.append(element.text)
         return _productPrices
 
 
     def _turnPage(self):
-        self._driver.find_element(By.XPATH, "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']").click()
-        time.sleep(random.randint(1, 5))
+        self._driver.find_element(By.XPATH, self._amazonParams.pagination).click()
+        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
 
 
     @property
