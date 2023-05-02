@@ -1,6 +1,6 @@
 import pandas as pd
 
-from drivers.chromedriver import ChromeDriver
+from webdrivers.chromedriver import ChromeDriver
 from scrappers.allegrolocalscrapper import AllegroLocalScrapper
 from scrappers.amazonscrapper import AmazonScrapper
 from scrappers.olxscrapper import OlxScrapper
@@ -8,13 +8,13 @@ from scrappers.olxscrapper import OlxScrapper
 
 
 class Administrator:
-    def __init__(self) -> None:
-        olx = OlxScrapper()
-        amazon = AmazonScrapper()
-        allegroLocal = AllegroLocalScrapper()
-        self._scrappers = [allegroLocal]
+    def __init__(self, webdriver, scrappers) -> None:
+        self._webdriver = webdriver
+        self._scrappers = scrappers
         self._data = []
-    
+
+        for scrapper in self._scrappers:
+            scrapper.setWebDriver(self._webdriver)
 
     def startScraping(self):
         for scrapper in self._scrappers:
@@ -22,17 +22,16 @@ class Administrator:
 
 
     def _processData(self, scrapper):
-        chromeDriver = ChromeDriver(scrapper.fullUrl)
-        chromeDriver.execute()
-        vendorData = scrapper.startScrapingData(chromeDriver.driver)
-        scrapper.processScrappedData(vendorData)
+        self._webdriver.execute(scrapper.fullUrl)
+        scrappedData = scrapper.startScrapingData()
+        scrapper.processScrappedData(scrappedData)
         self._data.extend(scrapper.processedData)
 
 
-    def saveToFile(self):
+    def saveToFile(self, filename):
         if len(self._data) != 0:
             data = pd.DataFrame(self._data, columns=['name', 'price'])
-            data.to_excel('results.xlsx', index=False)
+            data.to_excel(filename, index=False)
         else:
             print('ERROR: Data cannot be saved when empty')
 

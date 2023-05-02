@@ -2,7 +2,7 @@ import yaml
 
 from yaml.loader import Loader
 
-PARAMETERS_FILENAME = "config/parameters.yaml"
+PARAMETERS_FILENAME = "configuration/parameters.yaml"
 
 class ParameterParser:
     _instance = None
@@ -35,7 +35,7 @@ class ParameterParser:
     @classmethod
     def getAllegroLocalScrapperParams(cls):
         for param in cls._parameters:
-            if param['section'] == 'scrapper.allegroLocal':
+            if param['section'] == 'scrapper.allegrolocal':
                 return param
         raise Exception('ERROR: param not defined')
 
@@ -59,6 +59,6 @@ class ParameterParser:
     @classmethod
     def getMiscParams(cls):
         for param in cls._parameters:
-            if param['section'] == 'scrapper.misc':
+            if param['section'] == 'misc':
                 return param
         raise Exception('ERROR: param not defined')

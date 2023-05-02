@@ -1,4 +1,4 @@
-from admin.parameterparser import ParameterParser
+from general.parameters_library.parameterparser import ParameterParser
 
 
 def validate(misc):

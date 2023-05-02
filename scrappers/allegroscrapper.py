@@ -9,7 +9,6 @@ class AllegroScrapper:
         self._data = []
         self._fullUrl = 'https://allegro.pl/listing?string=final%20fantasy&offerTypeBuyNow=1'
 
-
     def startScrapingData(self, driver):
         time.sleep(random.randint(1, 5))
 
