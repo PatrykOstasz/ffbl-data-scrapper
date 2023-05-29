@@ -7,12 +7,12 @@ class ChromeDriverOptions:
     def __init__(self, params) -> None:
         self._options = ChromeOptions()
 
-        self._options.add_argument(params.headlessMode)
-        self._options.add_argument(params.disableGpu)
-        self._options.add_argument(params.disableAutomationControlledFlag)
+        self._options.add_argument(params['headlessMode'])
+        self._options.add_argument(params['disable.Gpu'])
+        self._options.add_argument(params['disable.AutomationControlledFlag'])
 
-        (exSwitchesKey, exSwitchesValues), = params.expSwitches.items()
-        (exAutoExtensionKey, exAutoExtensionValue), = params.expAutomationExtension.items()
+        (exSwitchesKey, exSwitchesValues), = params['experimental.switches'].items()
+        (exAutoExtensionKey, exAutoExtensionValue), = params['experimental.automaExtension'].items()
         self._options.add_experimental_option(exSwitchesKey, exSwitchesValues)
         self._options.add_experimental_option(exAutoExtensionKey, exAutoExtensionValue)
 

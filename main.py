@@ -1,30 +1,23 @@
 from general.administrator import Administrator
-from general.parameters_library.miscparameters import MiscParameters
-from general.parameters_library.scrapperparameters import *
-from general.parameters_library.webdriverparameters import WebDriverParameters
-from scrappers.allegrolocalscrapper import AllegroLocalScrapper
-from scrappers.amazonscrapper import AmazonScrapper
-from scrappers.olxscrapper import OlxScrapper
+from general.parameterslibrary import ParametersLibrary
 from webdrivers.chromedriver import ChromeDriver
 
+from scrappers.scrapperfactory import ScrapperFactory
 
 def main():
     #getting parameters
-    miscP = MiscParameters()
+    miscParameters = ParametersLibrary.getParameters('misc')
 
-    allegroLocalP = AllegroLocalScrapperParameters()
-    allegroLocalS = AllegroLocalScrapper(allegroLocalP, miscP)
+    webDriverParameters = ParametersLibrary.getParameters('webdriver')
+    chrome = ChromeDriver(webDriverParameters)
 
-    amazonP = AmazonScrapperParameters()
-    amazonS = AmazonScrapper(amazonP, miscP)
+    scrappers = []
+    for name in ScrapperFactory.SCRAPPER_NAMES:
+        scrappers.append(ScrapperFactory.create(name, 
+                                                chrome, 
+                                                miscParameters, 
+                                                ParametersLibrary.getParameters(name)))
 
-    olxP = OlxScrapperParameters()
-    olxS = OlxScrapper(olxP, miscP)
-    
-    scrappers = [allegroLocalS, amazonS, olxS]
-
-    webDriverP = WebDriverParameters()
-    chrome = ChromeDriver(webDriverP)
 
     administrator = Administrator(chrome, scrappers)
     administrator.startScraping()

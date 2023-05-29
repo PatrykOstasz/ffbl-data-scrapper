@@ -1,84 +1,42 @@
-import random
-import re
-import time
-
 from selenium.webdriver.common.by import By
 
+from scrappers.basescrapper import BaseScrapper
 
-class AmazonScrapper:
-    def __init__(self, amazonParams, miscParams) -> None:
-        self._amazonParams = amazonParams
-        self._miscParams = miscParams
-        self._data = []
-        self._fullUrl = self._amazonParams.fullUrl
-        self._driver = None
+class AmazonScrapper(BaseScrapper):
+    def __init__(self, driver, misc, params) -> None:
+        super().__init__(driver, misc, params)
 
-
-    def startScrapingData(self):
-        #cookies form will start each time on a 'clean' browser
-        self._acceptCookies()
-        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
-
-        _pageCount = self._findPageCount()
-
-        _productNames = self._findProductNames()
-        _productPrices = self._findProductPrices()
-        
-        for page in range(1, _pageCount):
-            self._turnPage()
-            _productNames.extend(self._findProductNames())
-            _productPrices.extend(self._findProductPrices())
-
-        return _productNames, _productPrices
+    def acceptCookies(self):
+        self._driver.find_element(By.XPATH, self._scrapperParams['xpath.cookies']).click()
 
 
-    def processScrappedData(self, products):
-        names, prices = products
+    def findPageCount(self):
+        return int(self._driver.find_element(By.XPATH, self._scrapperParams['xpath.pageCount']).text)
+
+
+    def findProductNames(self):
+        productNames = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productNames']):
+            productNames.append(str(element.text))
+        return productNames
+
+
+    def findProductPrices(self):
+        productPrices = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productPrices']):
+            productPrices.append(element.text)
+        return productPrices
+
+
+    def turnPage(self):
+        self._driver.find_element(By.XPATH, self._scrapperParams['xpath.pagination']).click()
+
+    @staticmethod
+    def processPrices(prices):
         processedPrices = []
         for price in prices:
             if '\n' in price:
                 processedPrices.append(price.replace('\n', ','))
             else:
                 processedPrices.append(price)
-        self._data = [list(elem) for elem in zip(names, processedPrices)]
-
-
-    def setWebDriver(self, driver):
-        self._driver = driver.driver
-
-
-    def _acceptCookies(self):
-        self._driver.find_element(By.XPATH, self._amazonParams.cookies).click()
-
-
-    def _findPageCount(self):
-        return int(self._driver.find_element(By.XPATH, self._amazonParams.pageCount).text)
-
-
-    def _findProductNames(self):
-        _productNames = []
-        for element in self._driver.find_elements(By.XPATH, self._amazonParams.productNames):
-            _productNames.append(str(element.text))
-        return _productNames
-
-
-    def _findProductPrices(self):
-        _productPrices = []
-        for element in self._driver.find_elements(By.XPATH, self._amazonParams.productPrices):
-            _productPrices.append(element.text)
-        return _productPrices
-
-
-    def _turnPage(self):
-        self._driver.find_element(By.XPATH, self._amazonParams.pagination).click()
-        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
-
-
-    @property
-    def fullUrl(self):
-        return self._fullUrl
-
-   
-    @property
-    def processedData(self):
-        return self._data
+        return processedPrices

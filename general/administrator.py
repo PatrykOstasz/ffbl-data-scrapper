@@ -13,9 +13,6 @@ class Administrator:
         self._scrappers = scrappers
         self._data = []
 
-        for scrapper in self._scrappers:
-            scrapper.setWebDriver(self._webdriver)
-
     def startScraping(self):
         for scrapper in self._scrappers:
             self._processData(scrapper)

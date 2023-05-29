@@ -1,90 +1,48 @@
-import random
-import time
-
 from selenium.webdriver.common.by import By
 
+from scrappers.basescrapper import BaseScrapper
 
-class OlxScrapper:
-    def __init__(self, olxParams, miscParams) -> None:
-        self._olxParams = olxParams
-        self._miscParams = miscParams     
-        self._data = []
-        self._fullUrl = self._olxParams.fullUrl
-        self._driver = None
+class OlxScrapper(BaseScrapper):
+    def __init__(self, driver, misc, params) -> None:
+        super().__init__(driver, misc, params)
+
+    def acceptCookies(self):
+        self._driver.find_element(By.XPATH, self._scrapperParams['xpath.cookies']).click()
 
 
-    def startScrapingData(self):
-        self._acceptCookies()
-        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))
+    def findPageCount(self):
+        pageList = self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.pageCount'])
+        pageCountL = []
+        for page in pageList:
+            pageCountL.append(page.get_attribute('aria-label'))
+        pageCount =pageCountL[-1].split()
+        return int(pageCount[1])
 
-        _pageCount = self._findPageCount()
 
-        _productNames = self._findProductNames()
-        _productPrices = self._findProductPrices()
-        
-        for page in range(1, _pageCount):
-            self._turnPage()
-            _productNames.extend(self._findProductNames())
-            _productPrices.extend(self._findProductPrices())
-        
-        return _productNames, _productPrices
+    def findProductNames(self):
+        productNames = []
+        for element in self._driver.find_elements(By.TAG_NAME, self._scrapperParams['xpath.productNames']):
+            productNames.append(str(element.text))
+        return productNames
 
-    
-    def processScrappedData(self, products):
-        names, prices = products
+
+    def findProductPrices(self):
+        productPrices = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productPrices']):
+            productPrices.append(element.text)
+        return productPrices
+
+
+    def turnPage(self):
+        self._driver.find_element(By.XPATH, self._scrapperParams['xpath.pagination']).click()
+
+
+    @staticmethod
+    def processPrices(prices):
         processedPrices = []
         for item in prices:
             if 'do negocjacji' in item:
                 processedPrices.append(item.replace('\ndo negocjacji', ''))
             else:
                 processedPrices.append(item)
-        
-        self._data = [list(elem) for elem in zip(names, processedPrices)]
-
-
-    def setWebDriver(self, driver):
-        self._driver = driver.driver
-
-
-    def _acceptCookies(self):
-        self._driver.find_element(By.XPATH, self._olxParams.cookies).click()
-
-
-    def _findPageCount(self):
-        _pageList = self._driver.find_elements(By.XPATH, self._olxParams.pageCount)
-        _pageCountL = []
-        for page in _pageList:
-            _pageCountL.append(page.get_attribute('aria-label'))
-        print(_pageCountL)
-        _pageCount =_pageCountL[-1].split()
-        print(_pageCount[1])
-        return int(_pageCount[1])
-
-
-    def _findProductNames(self):
-        _productNames = []
-        for element in self._driver.find_elements(By.TAG_NAME, self._olxParams.productNames):
-            _productNames.append(str(element.text))
-        return _productNames
-
-
-    def _findProductPrices(self):
-        _productPrices = []
-        for element in self._driver.find_elements(By.XPATH, self._olxParams.productPrices):
-            _productPrices.append(element.text)
-        return _productPrices
-
-
-    def _turnPage(self):
-        self._driver.find_element(By.XPATH, self._olxParams.pagination).click()
-        time.sleep(random.randint(self._miscParams.waitTimeMin, self._miscParams.waitTimeMax))  
-
-
-    @property
-    def fullUrl(self):
-        return self._fullUrl
-
-
-    @property
-    def processedData(self):
-        return self._data
+        return processedPrices

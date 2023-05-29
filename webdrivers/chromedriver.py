@@ -11,11 +11,10 @@ class ChromeDriver:
     def __init__(self, params) -> None:
         self._chromeDriverOptions = ChromeDriverOptions(params)
         self._automaticService = Service(ChromeDriverManager().install())
-        self._driver = None
         self._driver = Chrome(service=self._automaticService, options=self._chromeDriverOptions.options)
 
         #Changing the property of the navigator value for webdriver to undefined
-        self._driver.execute_script(params.scriptNavigator)
+        self._driver.execute_script(params['script.navigator'])
 
 
     def __del__(self):
