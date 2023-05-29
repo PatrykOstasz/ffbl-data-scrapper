@@ -1,0 +1,69 @@
+2023-05-30 00:38:24,240 INFO [main] main() : Initializing configuration
+2023-05-30 00:38:24,250 INFO [parameterslibrary] parseParametersFile() : configuration/parameters.yaml has been loaded successfully
+2023-05-30 00:38:24,262 INFO [parameterslibrary] parseParametersFile() : configuration/parameters.yaml has been loaded successfully
+2023-05-30 00:38:24,262 INFO [logger] log() : ====== WebDriver manager ======
+2023-05-30 00:38:25,037 INFO [logger] log() : Get LATEST chromedriver version for google-chrome 113.0.5672
+2023-05-30 00:38:25,927 INFO [logger] log() : Driver [C:\Users\patry\.wdm\drivers\chromedriver\win32\113.0.5672\chromedriver.exe] found in cache
+2023-05-30 00:38:27,228 INFO [parameterslibrary] parseParametersFile() : configuration/parameters.yaml has been loaded successfully
+2023-05-30 00:38:27,228 INFO [scrapperfactory] create() : Creating scrapper.amazon
+2023-05-30 00:38:27,235 INFO [parameterslibrary] parseParametersFile() : configuration/parameters.yaml has been loaded successfully
+2023-05-30 00:38:27,235 INFO [scrapperfactory] create() : Creating scrapper.allegrolocal
+2023-05-30 00:38:27,243 INFO [parameterslibrary] parseParametersFile() : configuration/parameters.yaml has been loaded successfully
+2023-05-30 00:38:27,243 INFO [scrapperfactory] create() : Creating scrapper.olx
+2023-05-30 00:38:27,243 INFO [administrator] startScraping() : data scrapping initialized
+2023-05-30 00:38:27,243 INFO [administrator] processData() : process gathered data
+2023-05-30 00:38:29,385 INFO [chromedriver] execute() : Executing: https://www.amazon.pl/s?k=final+fantasy&crid=2PXQDRZOTKAN6&sprefix=%2Caps%2C118&ref=nb_sb_ss_recent_1_0_recent and wating...
+2023-05-30 00:38:29,386 INFO [basescrapper] startScrapingData() : scrapper.amazon: starting scrapping data
+2023-05-30 00:38:29,592 INFO [basescrapper] startScrapingData() : scrapper.amazon: accepting Cookies
+2023-05-30 00:38:33,665 INFO [basescrapper] startScrapingData() : scrapper.amazon: number of pages found: 7
+2023-05-30 00:38:35,157 INFO [basescrapper] startScrapingData() : scrapper.amazon: found product names: 48, found product prices: 48
+2023-05-30 00:38:35,307 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 2
+2023-05-30 00:38:41,821 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 3
+2023-05-30 00:38:47,448 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 4
+2023-05-30 00:38:50,971 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 5
+2023-05-30 00:38:55,733 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 6
+2023-05-30 00:38:59,377 INFO [basescrapper] startScrapingData() : scrapper.amazon: turning to page 7
+2023-05-30 00:39:01,975 INFO [basescrapper] processScrappedData() : scrapper.amazon: start preprocessing scrapped data
+2023-05-30 00:39:01,975 INFO [administrator] processData() : process gathered data
+2023-05-30 00:39:03,875 INFO [chromedriver] execute() : Executing: https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz and wating...
+2023-05-30 00:39:03,876 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: starting scrapping data
+2023-05-30 00:39:03,998 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: accepting Cookies
+2023-05-30 00:39:07,091 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: number of pages found: 4
+2023-05-30 00:39:08,625 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: found product names: 60, found product prices: 60
+2023-05-30 00:39:10,348 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: turning to page 2
+2023-05-30 00:39:16,294 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: turning to page 3
+2023-05-30 00:39:20,298 INFO [basescrapper] startScrapingData() : scrapper.allegrolocal: turning to page 4
+2023-05-30 00:39:26,875 INFO [basescrapper] processScrappedData() : scrapper.allegrolocal: start preprocessing scrapped data
+2023-05-30 00:39:26,875 INFO [administrator] processData() : process gathered data
+2023-05-30 00:39:31,858 INFO [chromedriver] execute() : Executing: https://www.olx.pl/oferty/q-final-fantasy/ and wating...
+2023-05-30 00:39:31,858 INFO [basescrapper] startScrapingData() : scrapper.olx: starting scrapping data
+2023-05-30 00:39:32,217 INFO [basescrapper] startScrapingData() : scrapper.olx: accepting Cookies
+2023-05-30 00:39:36,326 INFO [basescrapper] startScrapingData() : scrapper.olx: number of pages found: 25
+2023-05-30 00:39:38,104 INFO [basescrapper] startScrapingData() : scrapper.olx: found product names: 50, found product prices: 50
+2023-05-30 00:39:38,663 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 2
+2023-05-30 00:39:43,332 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 3
+2023-05-30 00:39:51,888 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 4
+2023-05-30 00:40:03,360 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 5
+2023-05-30 00:40:11,623 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 6
+2023-05-30 00:40:19,170 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 7
+2023-05-30 00:40:25,624 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 8
+2023-05-30 00:40:30,021 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 9
+2023-05-30 00:40:34,689 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 10
+2023-05-30 00:40:39,139 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 11
+2023-05-30 00:40:43,273 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 12
+2023-05-30 00:40:48,569 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 13
+2023-05-30 00:40:55,796 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 14
+2023-05-30 00:41:03,039 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 15
+2023-05-30 00:41:08,499 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 16
+2023-05-30 00:41:14,790 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 17
+2023-05-30 00:41:21,028 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 18
+2023-05-30 00:41:24,661 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 19
+2023-05-30 00:41:28,590 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 20
+2023-05-30 00:41:33,452 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 21
+2023-05-30 00:41:39,759 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 22
+2023-05-30 00:41:45,194 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 23
+2023-05-30 00:41:51,571 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 24
+2023-05-30 00:41:56,770 INFO [basescrapper] startScrapingData() : scrapper.olx: turning to page 25
+2023-05-30 00:42:03,521 INFO [basescrapper] processScrappedData() : scrapper.olx: start preprocessing scrapped data
+2023-05-30 00:42:03,522 INFO [administrator] print() : printing data to stdout
+2023-05-30 00:42:03,537 INFO [administrator] saveToFile() : saving data to file: results.xlsx

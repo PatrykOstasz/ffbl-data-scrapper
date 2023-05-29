@@ -1,3 +1,4 @@
+import logging
 import yaml
 
 from yaml.loader import Loader
@@ -22,6 +23,7 @@ class ParameterParser:
     def parseParametersFile(cls, filename):
         with open(filename, 'r') as file:
             cls.parameters = list(yaml.load_all(file, Loader=Loader))
+            logging.info(f"{filename} has been loaded successfully")
 
 
 
@@ -34,5 +36,6 @@ class ParametersLibrary:
         for parameters in ParameterParser().parameters:
             if parameters['section'] == category:
                 return parameters
+        logging.error('parameter category not defined')
         raise Exception('ERROR: parameter category not defined')
 

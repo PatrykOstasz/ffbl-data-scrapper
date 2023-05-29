@@ -1,3 +1,4 @@
+import logging
 import random
 
 from webdrivers.chromedriveroptions import ChromeDriverOptions
@@ -23,6 +24,7 @@ class ChromeDriver:
 
     def execute(self, url):
         self._driver.get(url)
+        logging.info(f'Executing: {url} and wating...')
         _wait = WebDriverWait(self._driver, random.randint(1, 5))
 
 

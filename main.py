@@ -1,3 +1,5 @@
+import logging
+
 from general.administrator import Administrator
 from general.parameterslibrary import ParametersLibrary
 from webdrivers.chromedriver import ChromeDriver
@@ -5,7 +7,10 @@ from webdrivers.chromedriver import ChromeDriver
 from scrappers.scrapperfactory import ScrapperFactory
 
 def main():
-    #getting parameters
+    format = '%(asctime)s %(levelname)s [ %(module)s ] %(funcName)s() : %(message)s'
+    logging.basicConfig(level=logging.INFO, filename='sample.log', filemode='w', format=format)
+    logging.info("Initializing configuration")
+
     miscParameters = ParametersLibrary.getParameters('misc')
 
     webDriverParameters = ParametersLibrary.getParameters('webdriver')
