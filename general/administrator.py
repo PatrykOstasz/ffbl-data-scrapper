@@ -15,10 +15,10 @@ class Administrator:
 
     def startScraping(self):
         for scrapper in self._scrappers:
-            self._processData(scrapper)
+            self.processData(scrapper)
 
 
-    def _processData(self, scrapper):
+    def processData(self, scrapper):
         self._webdriver.execute(scrapper.fullUrl)
         scrappedData = scrapper.startScrapingData()
         scrapper.processScrappedData(scrappedData)
