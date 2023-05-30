@@ -5,4 +5,4 @@ Write-Host "Downloading python libraries"
 Write-Host "Updating pip"
 python.exe -m pip install --upgrade pip
 
-pip3.exe install -r config/requirements.txt
+pip3.exe install -r configuration/requirements.txt

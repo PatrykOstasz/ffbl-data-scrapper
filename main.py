@@ -7,8 +7,22 @@ from webdrivers.chromedriver import ChromeDriver
 from scrappers.scrapperfactory import ScrapperFactory
 
 def main():
-    format = '%(asctime)s %(levelname)s [ %(module)s ] %(funcName)s() : %(message)s'
-    logging.basicConfig(level=logging.INFO, filename='sample.log', filemode='w', format=format)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s [ %(module)s ] %(funcName)s() : %(message)s')
+    fileHandler = logging.FileHandler('sample.log')
+    fileHandler.setFormatter(formatter)
+    fileHandler.setLevel(logging.INFO)
+
+    streamHandler = logging.StreamHandler()
+    streamHandler.setFormatter(formatter)
+    streamHandler.setLevel(logging.INFO)
+
+    logger = logging.getLogger('root')
+    logger.setLevel(logging.INFO)
+
+    logger.addHandler(fileHandler)
+    logger.addHandler(streamHandler)
+
+
     logging.info("Initializing configuration")
 
     miscParameters = ParametersLibrary.getParameters('misc')
