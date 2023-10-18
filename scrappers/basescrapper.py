@@ -11,9 +11,11 @@ class BaseScrapper(ABC):
         self._driver = driver.driver
 
         self._data = []
+        self._code = self._scrapperParams['scrapperCode']
 
     def startScrapingData(self):
         logging.info(f"{self._scrapperParams['section']}: starting scrapping data")
+        time.sleep(random.randint(self._miscParams['driver.waittime.min'], self._miscParams['driver.waittime.max']))
 
         self.acceptCookies()
         logging.info(f"{self._scrapperParams['section']}: accepting Cookies")
@@ -25,6 +27,7 @@ class BaseScrapper(ABC):
 
         productNames = self.findProductNames()
         productPrices = self.findProductPrices()
+        productUrls = self.findProductUrls()
 
         logging.info(f"{self._scrapperParams['section']}: found product names: {len(productNames)}, found product prices: {len(productPrices)}")
 
@@ -36,16 +39,18 @@ class BaseScrapper(ABC):
 
             productNames.extend(self.findProductNames())
             productPrices.extend(self.findProductPrices())
+            productUrls.extend(self.findProductUrls())
 
             logging.info(f"{self._scrapperParams['section']}: found product names: {len(productNames)}, found product prices: {len(productPrices)}")
         
-        return productNames, productPrices
+        return productNames, productPrices, productUrls
     
     def processScrappedData(self, products):
         logging.info(f"{self._scrapperParams['section']}: start preprocessing scrapped data")
-        names, prices = products
+        names, prices, urls = products
+        codes = [self._code for code in range(len(names))]
         processedPrices = self.processPrices(prices)
-        self._data = [list(elem) for elem in zip(names, processedPrices)]
+        self._data = [list(elem) for elem in zip(names, processedPrices, codes, urls)]
     
     @abstractmethod
     def acceptCookies(self):
@@ -61,6 +66,10 @@ class BaseScrapper(ABC):
 
     @abstractmethod
     def findProductPrices(self):
+        pass
+
+    @abstractmethod
+    def findProductUrls(self):
         pass
 
     @abstractmethod

@@ -23,10 +23,12 @@ section: scrapper.allegrolocal
 # !all those parameters should not be commented out!
 
 fullUrl: "https://allegrolokalnie.pl/oferty/q/final%20fantasy?typ=kup-teraz"
-xpath.cookies: "//button[@id='cookies_confirm']"
+scrapperCode: "ALL"
+xpath.cookies: "//button[@data-testid='reject_home_view_action']"
 xpath.pageCount: "//span[@class='ml-text-medium ml-text-color-secondary ml-pagination__count']"
 xpath.productNames: "//h3[@class='mlc-itembox__title']"
 xpath.productPrices: "//span[@class='ml-offer-price__dollars']"
+xpath.productUrls: "//a[@class='mlc-card mlc-itembox']"
 xpath.pagination: "//a[@class='ml-pagination__link']"
 ...
 
@@ -36,10 +38,12 @@ section: scrapper.amazon
 # !all those parameters should not be commented out!
 
 fullUrl: "https://www.amazon.pl/s?k=final+fantasy&crid=2PXQDRZOTKAN6&sprefix=%2Caps%2C118&ref=nb_sb_ss_recent_1_0_recent"
+scrapperCode: "AMA"
 xpath.cookies: "//input[@id='sp-cc-accept']"
 xpath.pageCount: "//span[@class='s-pagination-item s-pagination-disabled']"
 xpath.productNames: "//span[@class='a-size-base-plus a-color-base a-text-normal']"
 xpath.productPrices: "//span[@class='a-price']"
+xpath.productUrls: "//a[@class='a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal']"
 xpath.pagination: "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']"
 ...
 
@@ -49,16 +53,18 @@ section: scrapper.olx
 # !all those parameters should not be commented out!
 
 fullUrl: "https://www.olx.pl/oferty/q-final-fantasy/"
+scrapperCode: "OLX"
 xpath.cookies: "//button[@id='onetrust-accept-btn-handler']"
 xpath.pageCount: "//li[@data-testid='pagination-list-item']"
 xpath.productNames: 'h6'
 xpath.productPrices: "//p[@data-testid='ad-price']"
+xpath.productUrls: "//a[@class='css-rc5s2u']"
 xpath.pagination: "//a[@data-testid='pagination-forward']"
 ...
 
 ---
 section: misc
 
-driver.waittime.min: 1
+driver.waittime.min: 2
 driver.waittime.max: 5
 ...

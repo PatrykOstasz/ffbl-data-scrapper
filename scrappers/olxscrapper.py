@@ -31,6 +31,14 @@ class OlxScrapper(BaseScrapper):
         for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productPrices']):
             productPrices.append(element.text)
         return productPrices
+    
+    
+    def findProductUrls(self):
+        productUrls = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productUrls']):
+            productUrls.append(element.get_attribute('href'))
+
+        return productUrls
 
 
     def turnPage(self):

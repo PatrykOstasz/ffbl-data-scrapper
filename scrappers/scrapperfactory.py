@@ -7,7 +7,7 @@ from scrappers.olxscrapper import OlxScrapper
 
 class ScrapperFactory:
 
-    SCRAPPER_NAMES = ['scrapper.amazon', 'scrapper.allegrolocal', 'scrapper.olx']
+    SCRAPPER_NAMES = ['scrapper.allegrolocal']
 
     @classmethod
     def create(cls, scrapperName, driver, misc, params):

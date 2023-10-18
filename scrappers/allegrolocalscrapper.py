@@ -5,6 +5,7 @@ from scrappers.basescrapper import BaseScrapper
 class AllegroLocalScrapper(BaseScrapper):
     def __init__(self, driver, misc, params) -> None:
         super().__init__(driver, misc, params)
+        self.scrapperCode = 'AL'
 
     def acceptCookies(self):
         self._driver.find_element(By.XPATH, self._scrapperParams['xpath.cookies']).click()
@@ -29,6 +30,13 @@ class AllegroLocalScrapper(BaseScrapper):
         for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productPrices']):
             productPrices.append(element.text)
         return productPrices
+
+    def findProductUrls(self):
+        productUrls = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productUrls']):
+            productUrls.append(element.get_attribute('href'))
+
+        return productUrls
 
 
     def turnPage(self):

@@ -27,6 +27,13 @@ class AmazonScrapper(BaseScrapper):
             productPrices.append(element.text)
         return productPrices
 
+    def findProductUrls(self):
+        productUrls = []
+        for element in self._driver.find_elements(By.XPATH, self._scrapperParams['xpath.productUrls']):
+            productUrls.append(element.get_attribute('href'))
+
+        return productUrls
+
 
     def turnPage(self):
         self._driver.find_element(By.XPATH, self._scrapperParams['xpath.pagination']).click()

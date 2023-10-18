@@ -32,7 +32,7 @@ class Administrator:
         logging.info(f'saving data to file: {filename}')
 
         if len(self._data) != 0:
-            data = pd.DataFrame(self._data, columns=['name', 'price'])
+            data = pd.DataFrame(self._data, columns=['name', 'price', 'code', 'url'])
             data.to_excel(filename, index=False)
         else:
              logging.error('Data cannot be saved when empty')
@@ -42,7 +42,7 @@ class Administrator:
         logging.info(f'printing data to stdout')
         
         if len(self._data) != 0:
-            data = pd.DataFrame(self._data, columns=['name', 'price'])
+            data = pd.DataFrame(self._data, columns=['name', 'price', 'code', 'url'])
             print(data)
         else:
            logging.error('Data cannot be printed when empty') 
