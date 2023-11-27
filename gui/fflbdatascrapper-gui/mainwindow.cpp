@@ -12,9 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     myProcess = new QProcess(this);
-    myModel = new FFLBDataModel();
-    ui->fflbDataView->setModel(myModel);
-    ui->fflbDataView->hide();
+    myModel = new FFLBDataModel(myProcess);
 }
 
 MainWindow::~MainWindow()
@@ -27,19 +25,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QDir dir(".");
-    //QDir::setCurrent("../../")
-    qInfo() << dir.absolutePath();
-
     QString program = "cd ..;cd .. ;python main.py";
 
 
-    qInfo() << "Starting a process";
-    //myProcess->setProcessChannelMode(QProcess::MergedChannels);
-    //connect(myProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::readyToRead);
-    //myProcess->start("powershell.exe", QStringList() << program);
+    qInfo() << "Starting a process"; // more info about subprocess.
+    myProcess->setProcessChannelMode(QProcess::MergedChannels);
+    connect(myProcess, &QProcess::readyReadStandardOutput, this, &MainWindow::readyToRead);
+    myProcess->start("powershell.exe", QStringList() << program);
 
-    ui->fflbDataView->show();
+    connect(myProcess, SIGNAL(finished(int)), this, SLOT(readCSV()));
+    ui->fflbDataView->setModel(myModel);
 }
 
 void MainWindow::readyToRead()
@@ -47,5 +42,9 @@ void MainWindow::readyToRead()
     QString output(myProcess->readAllStandardOutput());
     ui->console->append(output);
     //Do something with the string
+}
+
+void MainWindow::readCSVData()
+{
 }
 

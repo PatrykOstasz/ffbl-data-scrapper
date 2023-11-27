@@ -28,8 +28,8 @@ class Administrator:
         self._data.extend(scrapper.processedData)
 
 
-    def saveToFile(self, filename):
-        logging.info(f'saving data to file: {filename}')
+    def saveToExcel(self, filename):
+        logging.info(f'saving data to excel worksheet: {filename}')
 
         if len(self._data) != 0:
             data = pd.DataFrame(self._data, columns=['name', 'price', 'code', 'url'])
@@ -38,11 +38,11 @@ class Administrator:
              logging.error('Data cannot be saved when empty')
 
 
-    def print(self):
-        logging.info(f'printing data to stdout')
+    def saveToCSV(self, filename):
+        logging.info(f'saving data to csv: {filename}')
         
         if len(self._data) != 0:
             data = pd.DataFrame(self._data, columns=['name', 'price', 'code', 'url'])
-            print(data)
+            data.to_csv(filename, sep=';', index=False)
         else:
-           logging.error('Data cannot be printed when empty') 
+           logging.error('Data cannot be saved when empty') 

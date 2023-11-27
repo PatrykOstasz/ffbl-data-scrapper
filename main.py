@@ -40,8 +40,8 @@ def main():
 
     administrator = Administrator(chrome, scrappers)
     administrator.startScraping()
-    administrator.print()
-    administrator.saveToFile('results.xlsx')
+    administrator.saveToCSV('database.csv')
+    administrator.saveToExcel('results.xlsx')
 
 if __name__ == "__main__":
     main()
